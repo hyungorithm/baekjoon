@@ -7,8 +7,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	public static int[][] map;
-	public static Queue<Integer> que2 = new LinkedList<>();
-	public static Queue<Integer> que3 = new LinkedList<>();
+	public static Queue<Integer> que = new LinkedList<>();
 	public static int n;
 	public static int m;
 	public static int cnt = 1;
@@ -30,7 +29,7 @@ public class Main {
 				map[r][c] = str.charAt(c) - '0';
 			}
 		}
-		que2.add(0); que2.add(0);
+		que.add(0); que.add(0);
 		map[0][0] = 2;
 		bfs();
 		System.out.println(cnt);
@@ -43,46 +42,39 @@ public class Main {
 		}
 		
 		
-		while (!que2.isEmpty() || !que3.isEmpty()) {
-			int size2 = que2.size()/2;
-			int size3 = que3.size()/2;
+		while (!que.isEmpty()) {
+			int size = que.size()/2;
 			
-			for(int i = 0 ; i < size2 ; i++) {
-				int r = que2.poll();
-				int c = que2.poll();
+			for(int i = 0 ; i < size ; i++) {
+				int r = que.poll();
+				int c = que.poll();
 				
 				for(int d = 0 ; d <= 3 ; d++) {
-					if(r+dr[d] >= 0 && r+dr[d] < n && c+dc[d] >= 0 && c+dc[d] < m && map[r][c] == 2) {
-						if(map[r+dr[d]][c+dc[d]] == 0) {
-							map[r+dr[d]][c+dc[d]] = 2;
-							que2.add(r+dr[d]); que2.add(c+dc[d]);
+					if(r+dr[d] >= 0 && r+dr[d] < n && c+dc[d] >= 0 && c+dc[d] < m) {
+						if(map[r][c] == 2) {
+							if(map[r+dr[d]][c+dc[d]] == 0) {
+								map[r+dr[d]][c+dc[d]] = 2;
+								que.add(r+dr[d]); que.add(c+dc[d]);
+							}
+							else if(map[r+dr[d]][c+dc[d]] == 1) {
+								map[r+dr[d]][c+dc[d]] = 4;
+								que.add(r+dr[d]); que.add(c+dc[d]);
+							}
+							else if(map[r+dr[d]][c+dc[d]] == 3) {
+								map[r+dr[d]][c+dc[d]] = 2;
+								que.add(r+dr[d]); que.add(c+dc[d]);
+							}
 						}
-						else if(map[r+dr[d]][c+dc[d]] == 1) {
-							map[r+dr[d]][c+dc[d]] = 4;
-							que3.add(r+dr[d]); que3.add(c+dc[d]);
-						}
-						else if(map[r+dr[d]][c+dc[d]] == 3) {
-							map[r+dr[d]][c+dc[d]] = 2;
-							que2.add(r+dr[d]); que2.add(c+dc[d]);
+						else if(map[r][c] == 3 || map[r][c] == 4) {
+							if(map[r+dr[d]][c+dc[d]] == 0) {
+								map[r+dr[d]][c+dc[d]] = 3;
+								que.add(r+dr[d]); que.add(c+dc[d]);
+							}
 						}
 					}
 				}
 			}
 			
-			for(int i = 0 ; i < size3 ; i++) {
-				int r = que3.poll();
-				int c = que3.poll();
-				
-				for(int d = 0 ; d <= 3 ; d++) {
-					if(r+dr[d] >= 0 && r+dr[d] < n && c+dc[d] >= 0 && c+dc[d] < m && (map[r][c] == 3 || map[r][c] == 4)) {
-						if(map[r+dr[d]][c+dc[d]] == 0) {
-							map[r+dr[d]][c+dc[d]] = 3;
-							que3.add(r+dr[d]); que3.add(c+dc[d]);
-						}
-					}
-				}
-				
-			}
 			cnt++;
 			
 			if(map[n-1][m-1] != 0)
