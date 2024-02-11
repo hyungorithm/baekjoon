@@ -1,12 +1,15 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
 		String str = br.readLine();
 		int len = str.length();
 		int[][] abc = new int[len][26];
@@ -29,12 +32,13 @@ public class Main {
 			int a2 = Integer.parseInt(st.nextToken());
 			
 			if(a1 == 0) {
-				System.out.println(abc[a2][a]);
+				bw.write(abc[a2][a]+"\n");
 			}
 			else {
-				System.out.println(abc[a2][a] - abc[a1-1][a]);
+				bw.write((abc[a2][a] - abc[a1-1][a])+"\n");
 			}
 		}
-		
+		bw.flush();
+		bw.close();
 	}
 }
