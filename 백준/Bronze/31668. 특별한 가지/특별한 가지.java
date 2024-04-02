@@ -1,0 +1,1 @@
+import java.util.*;interface Main{static void main(String[] a){Scanner s=new Scanner(System.in);int i=s.nextInt();System.out.println(s.nextInt()*s.nextInt()/i);}}
